@@ -6,7 +6,7 @@
 //
 
 import UIKit
-// check commit
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
