@@ -29,7 +29,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="237"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="8" translatesAutoresizingMaskIntoConstraints="NO" id="beU-uT-wAj">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="414" image="8" translatesAutoresizingMaskIntoConstraints="NO" id="beU-uT-wAj">
                                                     <rect key="frame" x="16" y="4" width="382" height="216"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -121,10 +121,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cV8-vk-jXY">
-                                <rect key="frame" x="-20" y="-238" width="1661" height="1120"/>
+                                <rect key="frame" x="0.0" y="48" width="0.0" height="814"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="8" translatesAutoresizingMaskIntoConstraints="NO" id="Q53-qi-TOT">
-                                        <rect key="frame" x="20" y="239" width="436" height="861"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="291" height="240"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -166,9 +166,9 @@
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="top" secondItem="cO4-J9-4D6" secondAttribute="top" constant="56" id="47z-ku-ojq"/>
                             <constraint firstItem="cV8-vk-jXY" firstAttribute="trailing" secondItem="A16-ff-HQz" secondAttribute="trailing" id="5KU-8G-dho"/>
                             <constraint firstItem="A16-ff-HQz" firstAttribute="leading" secondItem="cV8-vk-jXY" secondAttribute="leading" id="JzU-yg-du3"/>
-                            <constraint firstItem="A16-ff-HQz" firstAttribute="top" secondItem="cV8-vk-jXY" secondAttribute="top" id="Rqh-cd-DiQ"/>
+                            <constraint firstItem="cV8-vk-jXY" firstAttribute="top" secondItem="cO4-J9-4D6" secondAttribute="top" id="Mmv-ie-Jvh"/>
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="top" secondItem="A16-ff-HQz" secondAttribute="top" constant="8" id="SDs-YL-iaC"/>
-                            <constraint firstItem="cV8-vk-jXY" firstAttribute="bottom" secondItem="A16-ff-HQz" secondAttribute="bottom" id="fEr-S4-5Rb"/>
+                            <constraint firstAttribute="bottom" secondItem="cV8-vk-jXY" secondAttribute="bottom" id="j3i-b2-GwQ"/>
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="leading" secondItem="cO4-J9-4D6" secondAttribute="leading" constant="8" id="nkH-5p-sXr"/>
                             <constraint firstItem="BcW-jE-AnK" firstAttribute="centerX" secondItem="A16-ff-HQz" secondAttribute="centerX" id="pJr-vm-n5i"/>
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="leading" secondItem="A16-ff-HQz" secondAttribute="leading" constant="8" id="tZm-AI-4WG"/>

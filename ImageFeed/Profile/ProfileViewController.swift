@@ -15,7 +15,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let profileImage = UIImage(systemName: "person.crop.circle.fill")
+        let profileImage = UIImage(resource: .profile)
         let imageView = UIImageView(image: profileImage)
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,8 +26,8 @@ final class ProfileViewController: UIViewController {
         imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
         let nameLabel = UILabel()
-        nameLabel.text = "Апарина Алена"
-        nameLabel.font = .systemFont(ofSize: 23, weight: UIFont.Weight(rawValue: 700) ?? .bold)
+        nameLabel.text = "Екатерина Новикова"
+        nameLabel.font = UIFont(name: "SFProText-Bold", size: 23)
         nameLabel.textColor = .white
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -37,8 +37,9 @@ final class ProfileViewController: UIViewController {
         self.nameLabel = nameLabel
         
         let loginNameLabel = UILabel()
-        loginNameLabel.text = "@alena_aparina"
-        loginNameLabel.textColor = .lightGray
+        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.textColor = .ypGray
+        loginNameLabel.font = UIFont(name: "SFProText-Regular", size: 13)
         
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
@@ -48,7 +49,7 @@ final class ProfileViewController: UIViewController {
         
         let descriptionLabel = UILabel()
         descriptionLabel.text = "Hello, World!"
-        descriptionLabel.font = .systemFont(ofSize: 17, weight: UIFont.Weight(rawValue: 500))
+        descriptionLabel.font = UIFont(name: "SFProText-Regular", size: 13)
         descriptionLabel.textColor = .white
         
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +59,7 @@ final class ProfileViewController: UIViewController {
         self.descriptionLabel = descriptionLabel
         
         let logoutButton = UIButton.systemButton(
-            with: UIImage(systemName: "ipad.and.arrow.forward")!,
+            with: UIImage(resource: .exit),
             target: self,
             action: #selector(Self.didTapButton)
         )
