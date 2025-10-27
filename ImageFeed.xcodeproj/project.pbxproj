@@ -45,6 +45,7 @@
 		DF3EF35E2E940D0D00C969DB = {
 			isa = PBXGroup;
 			children = (
+				DF7E0E192EABBC4C00D29F13 /* New Group */,
 				DF3EF3692E940D0D00C969DB /* ImageFeed */,
 				DF3EF3682E940D0D00C969DB /* Products */,
 			);
@@ -56,6 +57,13 @@
 				DF3EF3672E940D0D00C969DB /* ImageFeed.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DF7E0E192EABBC4C00D29F13 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
