@@ -12,7 +12,6 @@ final class SplashViewController: UIViewController {
 
     private let storage = OAuth2TokenStorage.shared
 
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -32,21 +31,6 @@ final class SplashViewController: UIViewController {
         .lightContent
     }
 
-//    private func switchToTabBarController() {
-//        guard
-//            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//            let window = windowScene.windows.first
-//        else {
-//            assertionFailure("Invalid window configuration")
-//            return
-//        }
-//
-//        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-//            .instantiateViewController(withIdentifier: "TabBarViewController")
-//        window.rootViewController = tabBarController
-//        window.makeKeyAndVisible()
-//    }
-    
     private func switchToTabBarController() {
         guard
             let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -56,20 +40,11 @@ final class SplashViewController: UIViewController {
             return
         }
 
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        print("Storyboard loaded: \(storyboard)")
-
-        if let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController") as? UITabBarController {
-            window.rootViewController = tabBarController
-            window.makeKeyAndVisible()
-            print("Successfully instantiated TabBarViewController")
-        } else {
-            print("Failed to instantiate TabBarViewController with identifier 'TabBarViewController'")
-        }
+        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+            .instantiateViewController(withIdentifier: "TabBarViewController")
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
     }
-    
-    
-    
 }
 
 extension SplashViewController {
