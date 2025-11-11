@@ -10,7 +10,8 @@ import UIKit
 final class SplashViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
 
-    private let storage = OAuth2TokenStorage()
+    private let storage = OAuth2TokenStorage.shared
+
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -31,16 +32,44 @@ final class SplashViewController: UIViewController {
         .lightContent
     }
 
+//    private func switchToTabBarController() {
+//        guard
+//            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//            let window = windowScene.windows.first
+//        else {
+//            assertionFailure("Invalid window configuration")
+//            return
+//        }
+//
+//        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+//            .instantiateViewController(withIdentifier: "TabBarViewController")
+//        window.rootViewController = tabBarController
+//        window.makeKeyAndVisible()
+//    }
+    
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else {
+        guard
+            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let window = windowScene.windows.first
+        else {
             assertionFailure("Invalid window configuration")
             return
         }
-        
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
+
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        print("Storyboard loaded: \(storyboard)")
+
+        if let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarViewController") as? UITabBarController {
+            window.rootViewController = tabBarController
+            window.makeKeyAndVisible()
+            print("Successfully instantiated TabBarViewController")
+        } else {
+            print("Failed to instantiate TabBarViewController with identifier 'TabBarViewController'")
+        }
     }
+    
+    
+    
 }
 
 extension SplashViewController {
@@ -63,7 +92,7 @@ extension SplashViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true)
-        
+
         switchToTabBarController()
     }
 }

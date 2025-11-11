@@ -10,34 +10,9 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() { }
 
-    private let storage = OAuth2TokenStorage()
+    private let storage = OAuth2TokenStorage.shared
+
     private var task: URLSessionDataTask?
-
-    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-        guard let url = URL(string: "https://unsplash.com/oauth/token") else {
-            return nil
-        }
-
-        var components = URLComponents()
-        components.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "code", value: code),
-            URLQueryItem(name: "grant_type", value: "authorization_code")
-        ]
-
-        guard let bodyData = components.query?.data(using: .utf8) else {
-            return nil
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = bodyData
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-
-        return request
-    }
 
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
@@ -115,5 +90,31 @@ final class OAuth2Service {
         }
 
         task?.resume()
+    }
+
+    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
+        guard let url = URL(string: "https://unsplash.com/oauth/token") else {
+            return nil
+        }
+
+        var components = URLComponents()
+        components.queryItems = [
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "client_secret", value: Constants.secretKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "grant_type", value: "authorization_code")
+        ]
+
+        guard let bodyData = components.query?.data(using: .utf8) else {
+            return nil
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = bodyData
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+
+        return request
     }
 }
