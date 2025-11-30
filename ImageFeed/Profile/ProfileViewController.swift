@@ -4,29 +4,80 @@
 //
 //  Created by Алена Апарина on 16.10.2025.
 //
-
+import Kingfisher
 import UIKit
 
 final class ProfileViewController: UIViewController {
+//    private let profileService = ProfileService()
+    private let tokenStorage = OAuth2TokenStorage.shared
+    
     private var nameLabel: UILabel?
     private var loginNameLabel: UILabel?
     private var descriptionLabel: UILabel?
+    private var avatarImageView: UIImageView?
     
+    private var profileImageServiceObserver: NSObjectProtocol?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .ypBlack
+        setupUI()
+
+        if let profile = ProfileService.shared.profile {
+            updateProfileDetails(profile: profile)
+        }
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
+    }
+    
+    private func updateAvatar() {
+        guard
+            let urlString = ProfileImageService.shared.avatarURL,
+            let url = URL(string: urlString),
+            let imageView = avatarImageView
+        else { return }
+
+        imageView.kf.setImage(with: url)
+    }
+
+    private func updateProfileDetails(profile: Profile) {
+        nameLabel?.text = profile.name.isEmpty
+            ? "Имя не указано"
+            : profile.name
+        loginNameLabel?.text = profile.loginName.isEmpty
+            ? "@неизвестный_пользователь"
+            : profile.loginName
+        descriptionLabel?.text = (profile.bio?.isEmpty ?? true)
+            ? "Профиль не заполнен"
+            : profile.bio
+    }
+
+
+    private func setupUI() {
         let profileImage = UIImage(resource: .profile)
+        
         let imageView = UIImageView(image: profileImage)
+        imageView.layer.cornerRadius = 35
+        imageView.clipsToBounds = true
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
+        self.avatarImageView = imageView
         imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
         let nameLabel = UILabel()
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = ""
         nameLabel.font = UIFont(name: "SFProText-Bold", size: 23)
         nameLabel.textColor = .white
         
@@ -37,7 +88,7 @@ final class ProfileViewController: UIViewController {
         self.nameLabel = nameLabel
         
         let loginNameLabel = UILabel()
-        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.text = ""
         loginNameLabel.textColor = .ypGray
         loginNameLabel.font = UIFont(name: "SFProText-Regular", size: 13)
         
@@ -48,7 +99,7 @@ final class ProfileViewController: UIViewController {
         self.loginNameLabel = loginNameLabel
         
         let descriptionLabel = UILabel()
-        descriptionLabel.text = "Hello, World!"
+        descriptionLabel.text = ""
         descriptionLabel.font = UIFont(name: "SFProText-Regular", size: 13)
         descriptionLabel.textColor = .white
         
