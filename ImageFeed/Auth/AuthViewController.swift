@@ -4,6 +4,7 @@
 //
 //  Created by Алена Апарина on 10.11.2025.
 //
+import ProgressHUD
 import UIKit
 
 protocol AuthViewControllerDelegate: AnyObject {
@@ -13,6 +14,8 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+
+    private var isAuthInProgress = false
 
     weak var delegate: AuthViewControllerDelegate?
 
@@ -37,9 +40,11 @@ final class AuthViewController: UIViewController {
     }
 
     @IBAction func didTapLoginButton(_ sender: Any) {
+        guard !isAuthInProgress else { return }
+        isAuthInProgress = true
         performSegue(withIdentifier: "ShowWebView", sender: nil)
     }
-    
+
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(resource: .backward)
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(resource: .backward)
@@ -50,19 +55,29 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-//        vc.dismiss(animated: true)
-        
+        UIBlockingProgressHUD.show()
+
         fetchOAuthToken(code) { [weak self] result in
             DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
                 guard let self = self else { return }
-                
+
                 switch result {
                 case .success:
                     vc.dismiss(animated: true)
                     self.delegate?.didAuthenticate(self)
-                case .failure(let error):
+                case let .failure(error):
                     print("Ошибка при получении токена: \(error.localizedDescription)")
+
+                    let alert = UIAlertController(
+                        title: "Что-то пошло не так(",
+                        message: "Не удалось войти в систему",
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "Ок", style: .default))
+                    self.present(alert, animated: true)
                 }
+                self.isAuthInProgress = false
             }
         }
     }
@@ -71,6 +86,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
         vc.dismiss(animated: true)
     }
 }
+
 extension AuthViewController {
     private func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         oauth2Service.fetchOAuthToken(code: code) { result in
