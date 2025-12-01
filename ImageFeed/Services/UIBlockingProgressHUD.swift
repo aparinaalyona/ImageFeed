@@ -13,16 +13,19 @@ final class  UIBlockingProgressHUD {
                 .compactMap { $0 as? UIWindowScene }
                 .flatMap { $0.windows }
                 .first { $0.isKeyWindow }
-//        return UIApplication.shared.windows.first
     }
 
     static func show() {
-        window?.isUserInteractionEnabled = false
-        ProgressHUD.animate()
+        DispatchQueue.main.async {
+            window?.isUserInteractionEnabled = false
+            ProgressHUD.animate()
+        }
     }
     
     static func dismiss() {
-        window?.isUserInteractionEnabled = true
-        ProgressHUD.dismiss()
+        DispatchQueue.main.async {
+            window?.isUserInteractionEnabled = true
+            ProgressHUD.dismiss()
+        }
     }
 }

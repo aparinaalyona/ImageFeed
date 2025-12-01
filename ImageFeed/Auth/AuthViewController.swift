@@ -15,6 +15,8 @@ final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
 
+    private var isAuthInProgress = false
+
     weak var delegate: AuthViewControllerDelegate?
 
     override func viewDidLoad() {
@@ -38,6 +40,8 @@ final class AuthViewController: UIViewController {
     }
 
     @IBAction func didTapLoginButton(_ sender: Any) {
+        guard !isAuthInProgress else { return }
+        isAuthInProgress = true
         performSegue(withIdentifier: "ShowWebView", sender: nil)
     }
 
@@ -51,8 +55,6 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-//        vc.dismiss(animated: true)
-
         UIBlockingProgressHUD.show()
 
         fetchOAuthToken(code) { [weak self] result in
@@ -68,13 +70,14 @@ extension AuthViewController: WebViewViewControllerDelegate {
                     print("Ошибка при получении токена: \(error.localizedDescription)")
 
                     let alert = UIAlertController(
-                        title: "Что-то пошло не так",
+                        title: "Что-то пошло не так(",
                         message: "Не удалось войти в систему",
                         preferredStyle: .alert
                     )
                     alert.addAction(UIAlertAction(title: "Ок", style: .default))
                     self.present(alert, animated: true)
                 }
+                self.isAuthInProgress = false
             }
         }
     }
