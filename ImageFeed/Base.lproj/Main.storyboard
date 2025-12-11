@@ -47,6 +47,9 @@
                                                     </constraints>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="Active"/>
+                                                    <connections>
+                                                        <action selector="didTapLike:" destination="fns-qe-pkv" eventType="touchUpInside" id="aox-FW-v7h"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="27 августа 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDe-xZ-p1h">
                                                     <rect key="frame" x="24" y="196" width="101.5" height="16"/>
@@ -109,7 +112,7 @@
                                 <rect key="frame" x="0.0" y="48" width="0.0" height="814"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="8" translatesAutoresizingMaskIntoConstraints="NO" id="Q53-qi-TOT">
-                                        <rect key="frame" x="0.0" y="0.0" width="291" height="240"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="814"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -151,12 +154,12 @@
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="top" secondItem="cO4-J9-4D6" secondAttribute="top" constant="56" id="47z-ku-ojq"/>
                             <constraint firstItem="cV8-vk-jXY" firstAttribute="trailing" secondItem="A16-ff-HQz" secondAttribute="trailing" id="5KU-8G-dho"/>
                             <constraint firstItem="A16-ff-HQz" firstAttribute="leading" secondItem="cV8-vk-jXY" secondAttribute="leading" id="JzU-yg-du3"/>
-                            <constraint firstItem="cV8-vk-jXY" firstAttribute="top" secondItem="cO4-J9-4D6" secondAttribute="top" id="Mmv-ie-Jvh"/>
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="top" secondItem="A16-ff-HQz" secondAttribute="top" constant="8" id="SDs-YL-iaC"/>
-                            <constraint firstAttribute="bottom" secondItem="cV8-vk-jXY" secondAttribute="bottom" id="j3i-b2-GwQ"/>
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="leading" secondItem="cO4-J9-4D6" secondAttribute="leading" constant="8" id="nkH-5p-sXr"/>
                             <constraint firstItem="BcW-jE-AnK" firstAttribute="centerX" secondItem="A16-ff-HQz" secondAttribute="centerX" id="pJr-vm-n5i"/>
                             <constraint firstItem="T0L-Na-dpB" firstAttribute="leading" secondItem="A16-ff-HQz" secondAttribute="leading" constant="8" id="tZm-AI-4WG"/>
+                            <constraint firstItem="cV8-vk-jXY" firstAttribute="top" secondItem="A16-ff-HQz" secondAttribute="top" id="xdT-uz-YtO"/>
+                            <constraint firstItem="A16-ff-HQz" firstAttribute="bottom" secondItem="cV8-vk-jXY" secondAttribute="bottom" id="xte-dZ-MHv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6i2-iI-RZy"/>

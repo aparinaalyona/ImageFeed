@@ -60,6 +60,27 @@ final class ProfileViewController: UIViewController {
             : profile.bio
     }
 
+    private func logout() {
+        OAuth2TokenStorage.shared.clearToken()
+
+        HTTPCookieStorage.shared.removeCookies(since: .distantPast)
+
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("Ошибка: окно не найдено")
+            return
+        }
+
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
+        window.makeKeyAndVisible()
+
+        UIView.transition(
+            with: window,
+            duration: 0.3,
+            options: .transitionCrossDissolve,
+            animations: nil
+        )
+    }
 
     private func setupUI() {
         let profileImage = UIImage(resource: .profile)
@@ -128,20 +149,18 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapButton() {
-        
-        nameLabel?.removeFromSuperview()
-        nameLabel = nil
-        
-        loginNameLabel?.removeFromSuperview()
-        loginNameLabel = nil
-        
-        descriptionLabel?.removeFromSuperview()
-        descriptionLabel = nil
-        
-                for view in view.subviews {
-            if view is UILabel {
-                view.removeFromSuperview()
-            }
-        }
+        let alert = UIAlertController(
+            title: "Пока-пока!",
+            message: "Вы уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+
+        alert.addAction(UIAlertAction(title: "НЕТ", style: .cancel))
+
+        alert.addAction(UIAlertAction(title: "ДА", style: .destructive) { [weak self] _ in
+            self?.logout()
+        })
+
+        present(alert, animated: true)
     }
 }
