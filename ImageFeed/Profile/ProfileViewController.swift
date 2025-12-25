@@ -7,8 +7,19 @@
 import Kingfisher
 import UIKit
 
-final class ProfileViewController: UIViewController {
-//    private let profileService = ProfileService()
+protocol ProfilePresenterProtocol: AnyObject {
+    var view: ProfileViewControllerProtocol? { get set }
+    func viewDidLoad()
+    func logout()
+}
+protocol ProfileViewControllerProtocol: AnyObject { }
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    private var presenter: ProfilePresenterProtocol!
+    func configure(_ presenter: ProfilePresenterProtocol) {
+        self.presenter = presenter
+        presenter.view = self
+    }
     private let tokenStorage = OAuth2TokenStorage.shared
     
     private var nameLabel: UILabel?
@@ -22,6 +33,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
         setupUI()
+        presenter.viewDidLoad()
 
         if let profile = ProfileService.shared.profile {
             updateProfileDetails(profile: profile)
@@ -145,10 +157,11 @@ final class ProfileViewController: UIViewController {
         view.addSubview(logoutButton)
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
         logoutButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        logoutButton.accessibilityIdentifier = "logoutButton"
     }
     
     @objc
-    private func didTapButton() {
+    func didTapButton() {
         let alert = UIAlertController(
             title: "Пока-пока!",
             message: "Вы уверены, что хотите выйти?",
