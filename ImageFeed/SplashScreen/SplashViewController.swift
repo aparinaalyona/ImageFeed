@@ -73,6 +73,7 @@ final class SplashViewController: UIViewController {
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarController")
         window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
     }
     
     private func fetchProfile(token: String) {
@@ -104,6 +105,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let token = self.storage.token else { return }
             DispatchQueue.main.async {
                 self.fetchProfile(token: token)
+                print("TOKEN IN STORAGE:", self.storage.token as Any)
             }
         }
     }

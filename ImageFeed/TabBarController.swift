@@ -30,7 +30,7 @@ final class TabBarController: UITabBarController {
             withIdentifier: "ImagesListViewController"
         )
 
-        let profileViewController = ProfileViewController()
+        let profileViewController = ProfileModuleBuilder.build()
         profileViewController.tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(named: "tab_profile_active"),

@@ -5,14 +5,25 @@
 //  Created by Алена Апарина on 06.10.2025.
 //
 
-import UIKit
 import ProgressHUD
+import UIKit
+
+protocol ImagesListServiceProtocol: AnyObject {
+    var photos: [Photo] { get }
+    static var didChangeNotification: Notification.Name { get }
+
+    func fetchPhotosNextPage()
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void)
+}
 
 final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
+    var photos: [Photo] = []
+    var imagesListService: ImagesListServiceProtocol = ImagesListService()
+    func inject(service: ImagesListServiceProtocol) {
+        imagesListService = service
+    }
 
-    private let imagesListService = ImagesListService()
-    private var photos: [Photo] = []
     private let showSingleImageIdentifier = "ShowSingleImage"
 
     private lazy var dateFormatter: DateFormatter = {
@@ -39,8 +50,7 @@ final class ImagesListViewController: UIViewController {
         imagesListService.fetchPhotosNextPage()
     }
 
-    
-    @objc private func updatePhotos(_ notification: Notification) {
+    @objc func updatePhotos(_ notification: Notification) {
         guard let service = notification.object as? ImagesListService else { return }
 
         let newCount = service.photos.count - photos.count
@@ -113,6 +123,8 @@ extension ImagesListViewController {
         let likeImage = photo.isLiked ? UIImage(resource: .active) :
             UIImage(resource: .noActive)
         cell.likeButton.setImage(likeImage, for: .normal)
+        
+        cell.likeButton.accessibilityIdentifier = photo.isLiked ? "Active" : "No Active"
     }
 }
 
@@ -131,7 +143,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
 
         imagesListService.changeLike(photoId: photo.id, isLike: newIsLiked) { [weak self] result in
             guard let self = self else { return }
-            
+
             DispatchQueue.main.async {
                 UIBlockingProgressHUD.dismiss()
             }
@@ -160,7 +172,6 @@ extension ImagesListViewController: ImagesListCellDelegate {
     }
 }
 
-
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -187,5 +198,9 @@ extension ImagesListViewController: UITableViewDelegate {
         if indexPath.row + 1 == photos.count {
             imagesListService.fetchPhotosNextPage()
         }
+    }
+
+    func configure(service: ImagesListServiceProtocol) {
+        imagesListService = service
     }
 }
