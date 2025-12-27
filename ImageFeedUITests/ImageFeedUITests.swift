@@ -7,7 +7,7 @@
 
 import XCTest
 
-class Image_FeedUITests: XCTestCase {
+final class Image_FeedUITests: XCTestCase {
     private let app = XCUIApplication()
     
     override func setUpWithError() throws {
@@ -46,41 +46,98 @@ class Image_FeedUITests: XCTestCase {
     }
     
     func testFeed() throws {
-        let tablesQuery = app.tables
-        
-        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-        cell.swipeUp()
-        
-        sleep(2)
-        
-        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
-        
-        cellToLike.buttons["No Active"].tap()
-        cellToLike.buttons["Active"].tap()
-        
-        sleep(2)
-        
-        cellToLike.tap()
-        
-        sleep(2)
-        
+        let feedTable = app.tables.element(boundBy: 0)
+
+        XCTAssertTrue(
+            feedTable.waitForExistence(timeout: 10),
+            "Экран ленты не загрузился"
+        )
+
+        feedTable.swipeUp()
+
+        let topCell = feedTable.cells.element(boundBy: 0)
+        XCTAssertTrue(
+            topCell.waitForExistence(timeout: 5),
+            "Верхняя ячейка не найдена"
+        )
+
+        let likeButton = topCell.buttons["No Active"]
+        XCTAssertTrue(
+            likeButton.waitForExistence(timeout: 5),
+            "Кнопка лайка не найдена"
+        )
+        likeButton.tap()
+
+        let activeLikeButton = topCell.buttons["Active"]
+        XCTAssertTrue(
+            activeLikeButton.waitForExistence(timeout: 5),
+            "Активная кнопка лайка не найдена"
+        )
+        activeLikeButton.tap()
+
+        topCell.tap()
+
         let image = app.scrollViews.images.element(boundBy: 0)
-        image.pinch(withScale: 3, velocity: 1)
-        image.pinch(withScale: 0.5, velocity: -1)
-        
-        let navBackButtonWhiteButton = app.buttons["backButton"]
-        navBackButtonWhiteButton.tap()
+        XCTAssertTrue(
+            image.waitForExistence(timeout: 10),
+        )
+
+        image.pinch(withScale: 3.0, velocity: 1.0)
+
+        image.pinch(withScale: 0.5, velocity: -1.0)
+
+        let backButton = app.buttons["backButton"]
+        XCTAssertTrue(
+            backButton.waitForExistence(timeout: 5),
+        )
+        backButton.tap()
     }
-    
+
     func testProfile() throws {
-        sleep(3)
-        app.tabBars.buttons.element(boundBy: 1).tap()
-       
-        XCTAssertTrue(app.staticTexts["Alyona Aparina"].exists)
-        XCTAssertTrue(app.staticTexts["@alyonabless"].exists)
-        
-        app.buttons["logoutButton"].tap()
-        
-        app.alerts["Пока пока!"].scrollViews.otherElements.buttons["ДА"].tap()
+        let feedTable = app.tables.element(boundBy: 0)
+        XCTAssertTrue(
+            feedTable.waitForExistence(timeout: 10),
+            "Экран ленты не загрузился"
+        )
+
+        let profileTab = app.tabBars.buttons.element(boundBy: 1)
+        XCTAssertTrue(
+            profileTab.waitForExistence(timeout: 5),
+            "Таб профиля не найден"
+        )
+        profileTab.tap()
+
+        let fullName = app.staticTexts["Alyona Aparina"]
+        let username = app.staticTexts["@alyonabless"]
+
+        XCTAssertTrue(
+            fullName.waitForExistence(timeout: 5),
+            "Имя пользователя не отображается"
+        )
+        XCTAssertTrue(
+            username.waitForExistence(timeout: 5),
+            "Юзернейм не отображается"
+        )
+
+        let logoutButton = app.buttons["logoutButton"]
+        XCTAssertTrue(
+            logoutButton.waitForExistence(timeout: 5),
+            "Кнопка логаута не найдена"
+        )
+        logoutButton.tap()
+
+        let logoutAlert = app.alerts["Пока-пока!"]
+        XCTAssertTrue(
+            logoutAlert.waitForExistence(timeout: 5),
+            "Алерт логаута не появился"
+        )
+        logoutAlert.buttons["ДА"].tap()
+
+        let loginButton = app.buttons["Authenticate"]
+        XCTAssertTrue(
+            loginButton.waitForExistence(timeout: 10),
+            "Экран авторизации не открылся"
+        )
     }
+
 }

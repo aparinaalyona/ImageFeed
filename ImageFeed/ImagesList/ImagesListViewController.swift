@@ -123,6 +123,8 @@ extension ImagesListViewController {
         let likeImage = photo.isLiked ? UIImage(resource: .active) :
             UIImage(resource: .noActive)
         cell.likeButton.setImage(likeImage, for: .normal)
+        
+        cell.likeButton.accessibilityIdentifier = photo.isLiked ? "Active" : "No Active"
     }
 }
 

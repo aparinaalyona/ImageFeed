@@ -5,7 +5,6 @@
 //  Created by Алена Апарина on 25.12.2025.
 //
 import Foundation
-
 public protocol WebViewPresenterProtocol {
     var view: WebViewViewControllerProtocol? { get set }
 
