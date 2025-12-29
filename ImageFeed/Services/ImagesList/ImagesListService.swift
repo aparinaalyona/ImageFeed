@@ -96,7 +96,7 @@ final class ImagesListService {
         )
     }
 
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
         let httpMethod = isLike ? "POST" : "DELETE"
         guard let url = URL(string: "https://api.unsplash.com/photos/\(photoId)/like") else {
             let error = NSError(domain: "Invalid URL", code: 0)
@@ -142,3 +142,4 @@ final class ImagesListService {
         task.resume()
     }
 }
+extension ImagesListService: ImagesListServiceProtocol { }
